@@ -44,7 +44,15 @@ struct ContentView: View {
                             })
                     }
                 })
-            }.navigationTitle("Space Stations")
+            }
+            .navigationTitle("Space Stations")
+            .toolbar {
+                ToolbarItemGroup(placement: .navigationBarTrailing) {
+                    Button("Next") {
+                        print("Next pressed")
+                    }
+                }
+            }
         }
         .onAppear(perform: {
             networkManager.fetchData()
