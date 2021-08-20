@@ -16,22 +16,32 @@ struct ContentView: View {
         
         NavigationView {
             ScrollView {
+                // Creating grid view with two items per row
                 LazyVGrid(columns: [
                     GridItem(.fixed(200), spacing: 20),
                     GridItem(.fixed(200))
                 ], spacing: 20, content: {
+                    // Populating grid asynchronously through observed object
                     ForEach(networkManager.spaceStations, id: \.self) { spaceStation in
-                        VStack(alignment: .center) {
-                            // Image Placeholder
-                            RemoteImage(url: spaceStation.imageURL)
-                                .frame(width: 150, height: 150, alignment: .center)
-                                .padding()
-                            
-                            // Space Station Info Placeholder
-                            Text(spaceStation.name)
-                                .bold()
-                            Text(spaceStation.owners.first!.name)
-                        }
+                        // Preparing for the "segue"
+                        NavigationLink(
+                            // Declaring destination
+                            destination: DetailView(
+                                imageView: RemoteImage(url: spaceStation.imageURL),
+                                nameLabel: spaceStation.name,
+                                ownerLabel: spaceStation.owners.first!.name,
+                                foundedLabel: spaceStation.founded,
+                                statusLabel: spaceStation.status.name,
+                                descriptionLabel: spaceStation.resultDescription),
+                            // Setting content for the grid view
+                            label: {
+                                // Populating with cell view
+                                SpaceStationCellView(
+                                    imageURL: spaceStation.imageURL,
+                                    nameLabel: spaceStation.name,
+                                    ownerLabel: spaceStation.owners.first!.name
+                                )
+                            })
                     }
                 })
             }.navigationTitle("Space Stations")
@@ -48,4 +58,6 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+
 

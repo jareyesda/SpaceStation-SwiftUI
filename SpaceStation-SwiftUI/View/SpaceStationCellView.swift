@@ -9,22 +9,25 @@ import Foundation
 import SwiftUI
 
 struct SpaceStationCellView: View {
+    
     let imageURL: String
-    let name: String
-    let owner: String
+    let nameLabel: String
+    let ownerLabel: String
     
     var body: some View {
-        VStack {
-            Spacer()
+        VStack(alignment: .center) {
+            // Image Placeholder
+            // ** Fetched asynchronously **
             RemoteImage(url: imageURL)
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 200, height: 200)
-            Text(name)
-                .frame(width: 200, height: 75, alignment: .center)
-            Text(owner)
-                .frame(width: 200, height: 75, alignment: .center)
-            Spacer()
+                .frame(width: 150, height: 150, alignment: .center)
+                .padding()
+            
+            // Space Station Info Placeholder
+            Text(nameLabel)
+                .bold()
+                .foregroundColor(.black)
+            Text(ownerLabel)
+                .foregroundColor(.black)
         }
-
     }
 }
