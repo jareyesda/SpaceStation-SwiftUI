@@ -8,14 +8,15 @@
 import Foundation
 
 class NetworkManager: ObservableObject {
-    var webURL = "https://ll.thespacedevs.com/2.2.0/spacestation/?format=json&limit=10"
     
+    // Published (I like to think of them as "dynamic") variables
     @Published var spaceStations = [SpaceStation]()
     @Published var availableURL = String()
     
-    func fetchData() {
+    // Fetching JSON and decoding from URL
+    func fetchData(urlString: String) {
         
-        guard let url = URL(string: webURL) else {
+        guard let url = URL(string: urlString) else {
             return
         }
         
@@ -28,6 +29,7 @@ class NetworkManager: ObservableObject {
                         DispatchQueue.main.async {
                             self.spaceStations = results!.results
                             
+                            // Changing availableURL based on null values -- This is a special case exclusive to this API
                             if let nextURL = results!.next {
                                 self.availableURL = nextURL
                             } else if let previousURL = results!.previous {
@@ -38,6 +40,7 @@ class NetworkManager: ObservableObject {
                     }
                 
             } else {
+                // Error handling
                 print(error!)
             }
         }.resume()

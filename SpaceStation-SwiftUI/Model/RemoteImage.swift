@@ -5,6 +5,8 @@
 //  Created by Juan Reyes on 7/25/21.
 //
 
+// *** This function was gathered from a HackingWithSwift forum post. It allows to asynchronously fetch an image from a URL ***
+
 import SwiftUI
 
 struct RemoteImage: View {

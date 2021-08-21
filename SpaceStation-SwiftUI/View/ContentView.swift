@@ -10,7 +10,9 @@ import SwiftUI
 
 struct ContentView: View {
     
+    // Variables
     @ObservedObject var networkManager = NetworkManager()
+    @State var buttonText = "Next"
     
     var body: some View {
         
@@ -35,7 +37,7 @@ struct ContentView: View {
                                 descriptionLabel: spaceStation.resultDescription),
                             // Setting content for the grid view
                             label: {
-                                // Populating with cell view
+                                // Populating with custom cell view
                                 SpaceStationCellView(
                                     imageURL: spaceStation.imageURL,
                                     nameLabel: spaceStation.name,
@@ -46,16 +48,26 @@ struct ContentView: View {
                 })
             }
             .navigationTitle("Space Stations")
+            // Navigation bar configuration
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    Button("Next") {
-                        print("Next pressed")
+                    // When button is pressed, fetch data from available url
+                    Button(buttonText) {
+                        networkManager.fetchData(urlString: networkManager.availableURL)
+                        
+                        // Conditional statements on button's label
+                        if buttonText == "Next" {
+                            buttonText = "Previous"
+                        } else {
+                            buttonText = "Next"
+                        }
+                        
                     }
                 }
             }
         }
         .onAppear(perform: {
-            networkManager.fetchData()
+            networkManager.fetchData(urlString: "https://ll.thespacedevs.com/2.2.0/spacestation/?format=json&limit=10")
         })
         
     }
